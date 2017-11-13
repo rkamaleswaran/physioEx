@@ -1,0 +1,194 @@
+[
+  {
+    "PATIENTID": "N38947",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2009-12-23 13:10:00.0"
+  },
+  {
+    "PATIENTID": "N38947",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-01-05 6:30:00.0"
+  },
+  {
+    "PATIENTID": "N38947",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-01-08 8:50:00.0"
+  },
+  {
+    "PATIENTID": "N38947",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-03-10 11:50:00.0"
+  },
+  {
+    "PATIENTID": "N39836",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-04-09 11:00:00.0"
+  },
+  {
+    "PATIENTID": "N39836",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-04-11 9:48:00.0"
+  },
+  {
+    "PATIENTID": "N39836",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-04-27 17:08:00.0"
+  },
+  {
+    "PATIENTID": "N39836",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-05-02 00:05:00.0"
+  },
+  {
+    "PATIENTID": "N40010",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-04-29 19:30:00.0"
+  },
+  {
+    "PATIENTID": "N40078",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-05-02 6:45:00.0"
+  },
+  {
+    "PATIENTID": "N40489",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-06-05 16:42:00.0"
+  },
+  {
+    "PATIENTID": "N40489",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-06-13 00:40:00.0"
+  },
+  {
+    "PATIENTID": "N40594",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-07-09 22:25:00.0"
+  },
+  {
+    "PATIENTID": "N40594",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-07-19 12:45:00.0"
+  },
+  {
+    "PATIENTID": "N40557",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-07-24 7:00:00.0"
+  },
+  {
+    "PATIENTID": "N40695",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-06-28 8:42:00.0"
+  },
+  {
+    "PATIENTID": "N40702",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-06-15 18:33:00.0"
+  },
+  {
+    "PATIENTID": "N40702",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-07-27 16:59:00.0"
+  },
+  {
+    "PATIENTID": "N40702",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-08-01 9:00:00.0"
+  },
+  {
+    "PATIENTID": "N40771",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-07-06 3:30:00.0"
+  },
+  {
+    "PATIENTID": "N40771",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-07-27 18:45:00.0"
+  },
+  {
+    "PATIENTID": "N41492",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-09-17 15:00:00.0"
+  },
+  {
+    "PATIENTID": "N41492",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-09-23 19:57:00.0"
+  },
+  {
+    "PATIENTID": "N41492",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2010-10-07 9:50:00.0"
+  },
+  {
+    "PATIENTID": "N42559",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2011-01-16 17:05:00.0"
+  },
+  {
+    "PATIENTID": "N43846",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2011-05-13 14:25:00.0"
+  },
+  {
+    "PATIENTID": "N43846",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2011-05-20 14:30:00.0"
+  },
+  {
+    "PATIENTID": "N44412",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2011-07-13.0:25:00.0"
+  },
+  {
+    "PATIENTID": "N44521",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2011-07-29 14:18:00.0"
+  },
+  {
+    "PATIENTID": "N44521",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2011-08-02 12:07:00.0"
+  },
+  {
+    "PATIENTID": "N44534",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2011-07-22 11:35:00.0"
+  },
+  {
+    "PATIENTID": "N44693",
+    "EVENT": "BLOOD",
+    "TYPE": "NE",
+    "DATE": "2011-08-08 7:20:00.0"
+  }
+]

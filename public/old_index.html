@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+<body>
+<H2>PhysioVis -- Neonatal Spells</H2>
+<div id="ri_pause"></div>
+<div id="hr"></div>
+<div id="spo2"></div>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+    var margin = {top: 10, right: 20, bottom: 20, left: 60},
+    width = (840 - margin.left - margin.right),
+    height = (260 - margin.top - margin.bottom);
+
+    var parseDate = d3.time.format("%Y-%m-%d %H:%M").parse;
+
+    var x = d3.time.scale().range([0, width]);
+
+    var y = d3.scale.ordinal()
+      .rangeRoundBands([height, 0], .05);
+
+      var z = d3.scale.linear()
+            .domain([00, 30])
+            .interpolate(d3.interpolateLab);
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+      ;
+
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left")
+      .tickFormat(d3.format("d"));
+
+    var formatTime = d3.time.format("%I %p"),
+      formatHour = function (d) {
+        if (d == 12) return "noon";
+        if (d == 24 || d == 0) return "midnight";
+        return formatTime(new Date(2013, 2, 9, d, 00));
+      };
+
+      var svg;
+
+     var brush = d3.svg.brush()
+      .x(x)
+      //.on("brushstart", brushstart)
+      .on("brush", brushmove); // like you only need the on brush not brushstart etc
+      //.on("brushend", brushend);
+
+      var patientID = "P24412";
+
+      var ri = d3.select("#ri_pause").append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .attr("class", "ri")
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var hr = d3.select("#hr").append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .attr("class", "ri")
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var spo2 = d3.select("#spo2").append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .attr("class", "ri")
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+  d3.json("data/" + patientID + "_breaching_ri_pause.json", function(error, data) {
+
+          var xAxis = d3.svg.axis()
+              .scale(x)
+              .orient("bottom");
+
+          var yAxis = d3.svg.axis()
+              .scale(y)
+              .orient("left")
+              .tickFormat(d3.format("d"));
+
+             z.range(["white", "purple"]);
+
+          var binNames = d3.keys(data[0]).filter(function(key) {
+                                return key != "0"
+                                  && key != "DAY"
+                                  && key != "PATIENT"
+                                  && key != "HOUR"
+                                  && key != "TYPE"
+                                  && key != "UN"; });
+
+          //preprocess dates and separate keyvals for d3 render
+          data.forEach( function(d) {
+                            d.DAY = d.DAY.concat(" " + d.HOUR + ":00");
+                            d.DAY = parseDate(d.DAY);
+                            d.values = [];
+                               for (var b=0;b < binNames.length;b++) {
+                                    d.values.push( parseInt(d[+binNames[b]],10));
+                                  };
+                        });
+
+          var m = data.map(function(d){ return d.DAY });
+              m.push(new Date((+m[m.length-1] - +m[m.length-2]) + +m[m.length-1]));
+
+          var ext = d3.extent(m);
+              y.domain(binNames);
+              x.domain(ext);
+
+          var ticks = y.domain().filter(function(d,i){ return !(i%2); } );
+              yAxis.tickValues( ticks );
+
+
+          var ylable = ri.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+              .append("text")
+              .attr("transform", "rotate(-90) translate(-20,-40)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Duration of Pause in Seconds");
+
+          var physMap = ri.selectAll(".physMap")
+              .data(data)
+              .enter( ).append("g")
+              .attr("class", "physMap")
+              ;
+
+          var mapBins = physMap.selectAll(".bin")
+                .data(function (d) {
+                      return d.values;
+                      })
+                .enter();
+
+          mapBins.append("rect")
+                .attr("clip-path", "url(#clip)")
+                .attr("class", "bin")
+                .attr("transform",
+                  "translate(" + 2 + "," + (5) + ")"
+
+                  )
+                .attr("x", function(d,i,j){
+                              return x(mapBins[j].parentNode.__data__.DAY);
+                           })
+                .attr("y", function(d,i,j) {
+                              return y(binNames[i]);
+                            })
+                .attr("height", y.rangeBand())
+                .attr("width", width / data.length)
+                .style("fill", function(d) { return z(d); });
+
+           ri.append("defs").append("clipPath")
+              .attr("id", "clip")
+              .append("rect")
+              .attr("width", width)
+              .attr("height", height + 20);
+
+           ri.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(2," + (height) + ")")
+              .call(xAxis);
+
+          ri.append("g")
+             .attr("class", "y axis")
+             .call(yAxis);
+
+          ri.append("g")
+             .attr("class", "brush")
+             .call(brush)
+             .selectAll('rect')
+             .attr('height', height);
+
+
+
+           physMap.on('mousedown', function(){
+              brush_elm = ri.select(".brush").node();
+              new_click_event = new Event('mousedown');
+              new_click_event.pageX = d3.event.pageX;
+              new_click_event.clientX = d3.event.clientX;
+              new_click_event.pageY = d3.event.pageY;
+              new_click_event.clientY = d3.event.clientY;
+              brush_elm.dispatchEvent(new_click_event);
+            });
+
+          });
+
+
+d3.json("data/" + patientID + "_breaching_hr.json", function(error, data) {
+
+          var xAxis = d3.svg.axis()
+              .scale(x)
+              .orient("bottom");
+
+          var yAxis = d3.svg.axis()
+              .scale(y)
+              .orient("left")
+              .tickFormat(d3.format("d"));
+
+             z.range(["white", "red"]);
+
+          var binNames = d3.keys(data[0]).filter(function(key) {
+                                return key != "0"
+                                  && key != "DAY"
+                                  && key != "PATIENT"
+                                  && key != "HOUR"
+                                  && key != "TYPE"
+                                  && key != "UN"; });
+
+          //preprocess dates and separate keyvals for d3 render
+          data.forEach( function(d) {
+                            d.DAY = d.DAY.concat(" " + d.HOUR + ":00");
+                            d.DAY = parseDate(d.DAY);
+                            d.values = [];
+                               for (var b=0;b < binNames.length;b++) {
+                                    d.values.push( parseInt(d[+binNames[b]],10));
+                                  };
+                        });
+
+          var m = data.map(function(d){ return d.DAY });
+              m.push(new Date((+m[m.length-1] - +m[m.length-2]) + +m[m.length-1]));
+
+          var ext = d3.extent(m);
+              y.domain(binNames);
+              x.domain(ext);
+
+          var ticks = y.domain().filter(function(d,i){ return !(i%2); } );
+              yAxis.tickValues( ticks );
+
+
+          var ylable = hr.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+              .append("text")
+              .attr("transform", "rotate(-90) translate(-20,-40)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Duration of Pause in Seconds");
+
+          var physMap = hr.selectAll(".physMap")
+              .data(data)
+              .enter( ).append("g")
+              .attr("class", "physMap")
+              ;
+
+        //physMap.call(brush);
+
+          var mapBins = physMap.selectAll(".bin")
+                .data(function (d) {
+                      return d.values;
+                      })
+                .enter();
+
+          mapBins.append("rect")
+                .attr("clip-path", "url(#clip)")
+                .attr("class", "bin")
+                .attr("transform",
+                  "translate(" + 2 + "," + (2) + ")"
+
+                  )
+                .attr("x", function(d,i,j){
+                              return x(mapBins[j].parentNode.__data__.DAY);
+                           })
+                .attr("y", function(d,i,j) {
+                              return y(binNames[i]);
+                            })
+                .attr("height", y.rangeBand())
+                .attr("width", width / data.length)
+                .style("fill", function(d) { return z(d); });
+
+           hr.append("defs").append("clipPath")
+              .attr("id", "clip")
+              .append("rect")
+              .attr("width", width)
+              .attr("height", height + 20);
+
+           hr.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(2," + (height) + ")")
+              .call(xAxis);
+
+          hr.append("g")
+             .attr("class", "y axis")
+             .call(yAxis);
+
+          hr.append("g")
+             .attr("class", "brush")
+             .call(brush)
+             .selectAll('rect')
+             .attr('height', height);
+
+           physMap.on('mousedown', function(){
+              brush_elm = hr.select(".brush").node();
+              new_click_event = new Event('mousedown');
+              new_click_event.pageX = d3.event.pageX;
+              new_click_event.clientX = d3.event.clientX;
+              new_click_event.pageY = d3.event.pageY;
+              new_click_event.clientY = d3.event.clientY;
+              brush_elm.dispatchEvent(new_click_event);
+            });
+
+          });
+
+d3.json("data/" + patientID + "_breaching_spo2.json", function(error, data) {
+
+          var xAxis = d3.svg.axis()
+              .scale(x)
+              .orient("bottom");
+
+          var yAxis = d3.svg.axis()
+              .scale(y)
+              .orient("left")
+              .tickFormat(d3.format("d"));
+
+             z.range(["white", "green"]);
+
+          var binNames = d3.keys(data[0]).filter(function(key) {
+                                return key != "0"
+                                  && key != "DAY"
+                                  && key != "PATIENT"
+                                  && key != "HOUR"
+                                  && key != "TYPE"
+                                  && key != "UN"; });
+
+          //preprocess dates and separate keyvals for d3 render
+          data.forEach( function(d) {
+                            d.DAY = d.DAY.concat(" " + d.HOUR + ":00");
+                            d.DAY = parseDate(d.DAY);
+                            d.values = [];
+                               for (var b=0;b < binNames.length;b++) {
+                                    d.values.push( parseInt(d[+binNames[b]],10));
+                                  };
+                        });
+
+          var m = data.map(function(d){ return d.DAY });
+              m.push(new Date((+m[m.length-1] - +m[m.length-2]) + +m[m.length-1]));
+
+          var ext = d3.extent(m);
+              y.domain(binNames);
+              x.domain(ext);
+
+          var ticks = y.domain().filter(function(d,i){ return !(i%2); } );
+              yAxis.tickValues( ticks );
+
+
+          var ylable = spo2.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+              .append("text")
+              .attr("transform", "rotate(-90) translate(-20,-40)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Duration of Pause in Seconds");
+
+          var physMap = spo2.selectAll(".physMap")
+              .data(data)
+              .enter( ).append("g")
+              .attr("class", "physMap")
+              ;
+
+        //physMap.call(brush);
+
+          var mapBins = physMap.selectAll(".bin")
+                .data(function (d) {
+                      return d.values;
+                      })
+                .enter();
+
+          mapBins.append("rect")
+                .attr("clip-path", "url(#clip)")
+                .attr("class", "bin")
+                .attr("transform",
+                  "translate(" + 2 + "," + (2) + ")"
+
+                  )
+                .attr("x", function(d,i,j){
+                              return x(mapBins[j].parentNode.__data__.DAY);
+                           })
+                .attr("y", function(d,i,j) {
+                              return y(binNames[i]);
+                            })
+                .attr("height", y.rangeBand())
+                .attr("width", width / data.length)
+                .style("fill", function(d) { return z(d); });
+
+           spo2.append("defs").append("clipPath")
+              .attr("id", "clip")
+              .append("rect")
+              .attr("width", width)
+              .attr("height", height + 20);
+
+           spo2.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(2," + (height) + ")")
+              .call(xAxis);
+
+          spo2.append("g")
+             .attr("class", "y axis")
+             .call(yAxis);
+
+          spo2.append("g")
+             .attr("class", "brush")
+             .call(brush)
+             .selectAll('rect')
+             .attr('height', height);
+
+           physMap.on('mousedown', function(){
+              brush_elm = spo2.select(".brush").node();
+              new_click_event = new Event('mousedown');
+              new_click_event.pageX = d3.event.pageX;
+              new_click_event.clientX = d3.event.clientX;
+              new_click_event.pageY = d3.event.pageY;
+              new_click_event.clientY = d3.event.clientY;
+              brush_elm.dispatchEvent(new_click_event);
+            });
+
+          });
+
+ var brushCell;
+
+  // Clear the previously-active brush, if any.
+  function brushstart(p) {
+    if (brushCell !== this) {
+      d3.select(brushCell).call(brush.clear());
+      // x.domain(x(p.DAY));
+      brushCell = this;
+      console.log("changed cell") // yeah this clears the original brush
+    }
+  }
+
+  // Highlight the selected circles.
+  function brushmove(p) {
+    var e = brush.extent();
+
+    d3.selectAll(".brush").call(brush);
+
+    d3.selectAll(".physMap").classed("hidden", function(d) {
+      return e[0] > d.DAY || d.DAY > e[1];
+    });
+
+    var t = d3.select(this);
+
+     var cz = d3.scale.linear()
+            .domain([00, 100])
+            .interpolate(d3.interpolateLab);
+      cz.range(["white", "black"]);
+
+    d3.selectAll(".physMap").selectAll("rect").style("fill", function(d) { return z(d)});
+    d3.selectAll(".physMap.hidden").selectAll("rect").style("fill", function(d) { return cz(d)});
+  }
+
+  // If the brush is empty, select all circles.
+  function brushend() {
+    if (brush.empty()) d3.selectAll(".hidden").classed("hidden", false);
+
+    var e = brush.extent();
+
+    get_button = d3.select(".clear-button");
+
+    var type = d3.select(".hr")
+
+      type.append('rect').attr('x', x(e[0]))
+      .attr('width', x(e[1]) - x(e[0]) )
+      .attr('height', height)
+      .attr('class', 'rand');
+
+      type.selectAll('rand').remove();
+
+      if(get_button.empty() === true) {
+        clear_button = ri.append('text')
+          .attr("y", 260)
+          .attr("x", 1025)
+          .attr("class", "clear-button")
+          .text("Clear Brush");
+      }
+
+     x.domain(brush.extent());
+
+    d3.selectAll(".physMap").select(".x.axis").call(xAxis);
+  }
+
+    clearMap = function () {
+          svg.selectAll("*")
+            .remove();
+    };
+    </script>

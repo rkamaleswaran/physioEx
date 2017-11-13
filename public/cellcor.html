@@ -1,0 +1,61 @@
+/*    Cell based Viz     */
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+<body>
+<H2>PhysioVis -- Neonatal Spells</H2>
+<div id="ri_pause"></div>
+<div id="hr"></div>
+<div id="spo2"></div>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+    var margin = {top: 10, right: 20, bottom: 20, left: 60},
+    width = (840 - margin.left - margin.right),
+    height = (260 - margin.top - margin.bottom);
+
+    var parseDate = d3.time.format("%Y-%m-%d %H:%M").parse;
+
+    var x = d3.time.scale().range([0, width]);
+
+    var y = d3.scale.ordinal()
+      .rangeRoundBands([height, 0], .05);
+
+      var color = d3.scale.linear()
+            .domain([00, 30])
+            .interpolate(d3.interpolateLab);
+
+      color.range(["white", "black"]);
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+      ;
+
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left")
+      .tickFormat(d3.format("d"));
+
+
+      var patientID = "P24412";
+
+
+
+  d3.json("data/" + patientID + "_breaching_ri_pause.json", function(error, data) {
+
+    var svg = d3.select(body).append("svg")
+                      .attr("width", width + margin.left + margin.right)
+                      .attr("height", height + margin.top + margin.bottom)
+                      .attr("class", a)
+                      .append("g")
+                      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+
+  });
+
+

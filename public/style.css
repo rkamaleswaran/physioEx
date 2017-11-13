@@ -1,0 +1,298 @@
+
+@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700);
+
+body {
+  background: white;
+  font-family: "Helvetica Neue";
+  margin: 40px auto;}
+
+h1 {
+  font-size: 96px;
+  margin-top: .3em;
+  margin-bottom: 0;
+}
+
+h1 + h2 {
+  margin-top: 0;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 28px;
+}
+
+h1, h2 {
+  font-family: "Yanone Kaffeesatz";
+  text-rendering: optimizeLegibility;
+}
+
+#body > p {
+
+  line-height: 1.5em;
+  text-rendering: optimizeLegibility;
+}
+
+#charts {
+  padding: 10px 0;
+}
+
+.chart {
+  display: inline-block;
+  height: 151px;
+  margin-bottom: 20px;
+}
+
+.reset {
+  padding-left: 1em;
+  font-size: smaller;
+  color: #ccc;
+}
+
+.background.bar {
+  fill: #ccc;
+}
+
+.foreground.bar {
+  fill: steelblue;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.spellbrush rect.extent {
+  fill: steelblue;
+  fill-opacity: .0525;
+}
+
+.spellbrush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+.brush rect.extent {
+  fill: steelblue;
+  fill-opacity: .00525;
+}
+
+.stack rect.extent {
+  fill: steelblue;
+  fill-opacity: .0525;
+}
+
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+#hour-chart {
+  width: 260px;
+}
+
+#delay-chart {
+  width: 230px;
+}
+
+#distance-chart {
+  width: 420px;
+}
+
+#date-chart {
+  width: 920px;
+}
+
+select {
+  float: left;
+}
+
+.check {
+  float:left;
+  padding: 0px;
+}
+
+svg {
+  float:left
+
+
+}
+
+.physMap .hidden {
+  fill: #ccc !important;
+}
+
+.clear-button {
+  font: 14px sans-serif;
+  cursor: pointer;
+}
+
+.legend {
+  padding: 10px 9px 1px 0;
+  font: 10px sans-serif;
+  text-anchor:"start";
+  cursor: pointer;
+  float: right;
+}
+
+.check {
+
+  margin-left: 5px;
+  font: 10px sans-serif;
+}
+
+#navlist li
+{
+display: inline;
+list-style-type: none;
+padding-right: 20px;
+padding-bottom: 5px;
+}
+
+.navbar .navbar-form {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#check li
+{
+  margin: 5px 0px 3px;
+display: inline;
+list-style-type: none;
+padding-right: 5px;
+padding-left: 5px;
+}
+
+input[type="checkbox"]{
+margin: 4px 3px 0;
+}
+
+div.tooltip {
+
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+p.ttext {
+  margin:0.5em;
+  position: absolute;
+  text-align: center;
+  font: 12px sans-serif;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.irwline {
+  fill: none;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+.hsline {
+  fill: none;
+  stroke: black;
+  stroke-width: 2px;
+}
+
+.hrxaxis{
+  font: 8px sans-serif;
+}
+
+.bs-example{
+      margin: 10px;
+    }
+    hr{
+        margin: 5px 0;
+    }
+
+.pull-right {
+  float: right !important;
+}
+
+.Vagal {
+    border-radius: 50%;
+    margin-left: 5px;
+    background: none repeat scroll 0% 0% #006633;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Central {
+    border-radius: 50%;
+    margin-left: 5px;
+    background: none repeat scroll 0% 0% #8271B1;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Central-Obs {
+    border-radius: 50%;
+    margin-left: 5px;
+    background: none repeat scroll 0% 0% #6B0077;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Iso-Brady {
+    border-radius: 50%;
+    margin-left: 5px;
+    background: none repeat scroll 0% 0% #F55D64;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Iso-Desat {
+    border-radius: 50%;
+    margin-left: 5px;
+    background: none repeat scroll 0% 0% #0079AD;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Pos-Iso-Brady {
+    border-radius: 50%;
+    margin-left: 5px;
+    background: none repeat scroll 0% 0% #F5CAE3;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Pos-Iso-Desat {
+    border-radius: 50%;
+    margin-left: 5px;
+    background: none repeat scroll 0% 0% #CBD8DF;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
